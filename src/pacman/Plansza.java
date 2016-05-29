@@ -16,7 +16,8 @@ import java.io.InputStreamReader;
 import javax.swing.JFrame;
 
 /**
- *
+ * Plansza gry
+ * 
  * @author Michał i Marcin
  */
 public class Plansza {
@@ -24,9 +25,7 @@ public class Plansza {
     public enum Pole {
         Puste, Sciana, Punkt, Bonus, Brama
     }
-    
-    private FileReader fr;
-    String linia;
+
     static final int WIDTH = 28;
     static final int HEIGHT = 36;
     
@@ -46,10 +45,12 @@ public class Plansza {
     }
     
     public void zaladuj( String nazwa ) {
+        FileReader fr = null;
+        String linia;
         try {
             fr = new FileReader(nazwa);
-            
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             System.out.println("BŁĄD PRZY OTWIERANIU PLIKU MAPY!");
             System.exit(1);
         }
@@ -59,10 +60,22 @@ public class Plansza {
             int r = 0;
             while((linia = bfr.readLine()) != null) {
                 for(int c = 0; c < linia.length(); c++) {
-                    if(linia.charAt(c) == '#') mapa[r][c] = Pole.Sciana;
-                    else if(linia.charAt(c) == '.') mapa[r][c] = Pole.Punkt;
-                    else if(linia.charAt(c) == ' ') mapa[r][c] = Pole.Puste;
-                    else if(linia.charAt(c) == '+') mapa[r][c] = Pole.Bonus;
+                    switch (linia.charAt(c)) {
+                        case '#':
+                            mapa[r][c] = Pole.Sciana;
+                            break;
+                        case '.':
+                            mapa[r][c] = Pole.Punkt;
+                            break;
+                        case ' ':
+                            mapa[r][c] = Pole.Puste;
+                            break;
+                        case '+':
+                            mapa[r][c] = Pole.Bonus;
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 r++;
             }
@@ -85,17 +98,21 @@ public class Plansza {
         g2d.fillRect(0, 0, WIDTH*wlk, HEIGHT*wlk);
         for(int r = 0; r < HEIGHT; r++) {
             for(int c = 0; c < WIDTH; c++) {
-                if(mapa[r][c] == Pole.Sciana) {
-                    g2d.setColor(Color.blue);
-                    g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
-                }
-                else if(mapa[r][c] == Pole.Punkt) {
-                    g2d.setColor(Color.yellow);
-                    g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
-                }
-                else if(mapa[r][c] == Pole.Bonus) {
-                    g2d.setColor(Color.red);
-                    g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                if(null != mapa[r][c]) switch (mapa[r][c]) {
+                    case Sciana:
+                        g2d.setColor(Color.blue);
+                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        break;
+                    case Punkt:
+                        g2d.setColor(Color.yellow);
+                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        break;
+                    case Bonus:
+                        g2d.setColor(Color.red);
+                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
