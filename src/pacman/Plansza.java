@@ -7,13 +7,11 @@ package pacman;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.image.BufferStrategy;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import javax.swing.JFrame;
+import java.util.ArrayList;
 
 /**
  * Plansza gry
@@ -28,12 +26,64 @@ public class Plansza {
 
     static final int WIDTH = 28;
     static final int HEIGHT = 36;
+    int WIELKOSC = 12;
     
     Pole[][] mapa;
+    Path.Node[] wezly;
     
     public Plansza() {
         mapa = new Pole[HEIGHT][WIDTH];
     }
+    
+    void zbudujWezly()
+    {
+        Path.Node[][] mapa2d = new Path.Node[HEIGHT][WIDTH];
+        ArrayList<Path.Node> lista = new ArrayList<>();
+        
+        for( int y=0; y<HEIGHT; y++ )
+        {
+            for( int x=0; x<WIDTH; x++ )
+            {
+                mapa2d[y][x] = null;
+                if( mapa[y][x] != Pole.Sciana )
+                    {
+                    Path.Node n = new Path.Node();
+                    mapa2d[y][x] = n;
+
+                    n.x = x;
+                    n.y = y;
+                    n.state = Path.State.Blank;
+                    n.cost = 0;
+                    n.estimated = 0;
+                    n.neighbours = new Path.Node[4]; // max 4 sasiadow
+                    n.parent = null;
+                    
+                    lista.add( n );
+                }
+            }
+        }
+        
+        for( Path.Node n : lista )
+        {
+            
+            int i=0;
+            if( n.x-1 >= 0 && null != mapa2d[n.y][n.x-1] )
+                n.neighbours[i++] = mapa2d[n.y][n.x-1];
+            
+            if( n.x+1 < WIDTH && null != mapa2d[n.y][n.x+1])
+                n.neighbours[i++] = mapa2d[n.y][n.x+1];
+            
+            if( n.y-1 >= 0 && null != mapa2d[n.y-1][n.x])
+                n.neighbours[i++] = mapa2d[n.y-1][n.x];
+            
+            if( n.y+1 < WIDTH && null != mapa2d[n.y+1][n.x])
+                n.neighbours[i++] = mapa2d[n.y+1][n.x];
+                
+        }
+        
+        wezly = lista.toArray( new Path.Node[ lista.size() ] );
+    }
+    
     
     public void ustaw(int x, int y, Pole pole) {
         if(wSrodku(x,y)) mapa[y][x] = pole;
@@ -90,12 +140,15 @@ public class Plansza {
             System.out.println("BŁĄD PRZY ZAMYKANIU PLIKU!");
             System.exit(3);
         }
+        
+        zbudujWezly();
     }
     
     public void rysuj(Graphics2D g2d) {
+        int wlk = WIELKOSC;
         g2d.setColor(Color.GRAY);
-        int wlk = 12;
         g2d.fillRect(0, 0, WIDTH*wlk, HEIGHT*wlk);
+        
         for(int r = 0; r < HEIGHT; r++) {
             for(int c = 0; c < WIDTH; c++) {
                 if(null != mapa[r][c]) switch (mapa[r][c]) {

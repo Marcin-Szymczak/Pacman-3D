@@ -15,9 +15,11 @@ import javax.swing.JFrame;
 public class Pacman extends JFrame {
     
     public Plansza plansza;
-    private Timer timer;
+    public Path path;
+    final private Timer timer;
     
     class Krok extends TimerTask {
+        @Override
         public void run() {
             repaint();
         }
@@ -26,10 +28,13 @@ public class Pacman extends JFrame {
     @Override
     public void paint(Graphics g) {
         BufferStrategy bs = this.getBufferStrategy();
+        //if( null == bs ) return;
         Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
+        //if( null == g2d ) return;
         g2d.translate(10, 30);
         
         plansza.rysuj(g2d);
+        path.rysuj(g2d);
         
         g2d.dispose();
         bs.show();
@@ -44,9 +49,10 @@ public class Pacman extends JFrame {
         createBufferStrategy(2);
         
         plansza = new Plansza();
+        path = new Path();
         
         timer = new Timer();
-        timer.scheduleAtFixedRate(new Krok(), 0, 20);
+        timer.scheduleAtFixedRate(new Krok(), 20, 20);
     }
 
     public static void main(String[] args) {
@@ -54,6 +60,9 @@ public class Pacman extends JFrame {
         pacman.repaint();
         
         pacman.plansza.zaladuj( "001.p3dm" );
+        pacman.path.setData( pacman.plansza.wezly );
+        
+        pacman.path.find( 1, 1, 1, 13);
     }
     
 }
