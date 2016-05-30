@@ -5,8 +5,11 @@
  */
 package pacman;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.image.BufferStrategy;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,8 +28,8 @@ public class Plansza {
     }
 
     static final int WIDTH = 28;
-    static final int HEIGHT = 36;
-    int WIELKOSC = 12;
+    static final int HEIGHT = 31;
+    static final int wlk = 12;
     
     Pole[][] mapa;
     Path.Node[] wezly;
@@ -46,7 +49,7 @@ public class Plansza {
             {
                 mapa2d[y][x] = null;
                 if( mapa[y][x] != Pole.Sciana )
-                    {
+                {
                     Path.Node n = new Path.Node();
                     mapa2d[y][x] = n;
 
@@ -76,7 +79,7 @@ public class Plansza {
             if( n.y-1 >= 0 && null != mapa2d[n.y-1][n.x])
                 n.neighbours[i++] = mapa2d[n.y-1][n.x];
             
-            if( n.y+1 < WIDTH && null != mapa2d[n.y+1][n.x])
+            if( n.y+1 < HEIGHT && null != mapa2d[n.y+1][n.x])
                 n.neighbours[i++] = mapa2d[n.y+1][n.x];
                 
         }
@@ -88,6 +91,14 @@ public class Plansza {
     public void ustaw(int x, int y, Pole pole) {
         if(wSrodku(x,y)) mapa[y][x] = pole;
         else System.err.println("Nie można ustawić pola o współrzędnych ["+x+"] ["+y+"]");
+    }
+    
+    public Pole jakiePole( int x, int y )
+    {
+        if( wSrodku( x, y ) )
+            return mapa[y][x];
+        else
+            return Pole.Sciana;
     }
     
     public boolean wSrodku(int x, int y) {
@@ -145,30 +156,28 @@ public class Plansza {
     }
     
     public void rysuj(Graphics2D g2d) {
-        int wlk = WIELKOSC;
-        g2d.setColor(Color.GRAY);
-        g2d.fillRect(0, 0, WIDTH*wlk, HEIGHT*wlk);
-        
+        g2d.setColor(Color.black);
+        g2d.fillRect(0, 0, WIDTH*wlk+1, HEIGHT*wlk+1);
         for(int r = 0; r < HEIGHT; r++) {
             for(int c = 0; c < WIDTH; c++) {
                 if(null != mapa[r][c]) switch (mapa[r][c]) {
                     case Sciana:
                         g2d.setColor(Color.blue);
-                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        g2d.setStroke(new BasicStroke(2));
+                        g2d.drawRoundRect(c*wlk, r*wlk, wlk, wlk, 5, 5);
                         break;
                     case Punkt:
-                        g2d.setColor(Color.yellow);
-                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        g2d.setColor(new Color(255,204,102));
+                        g2d.fillOval(c*wlk+wlk/3, r*wlk+wlk/3, wlk/3, wlk/3);
                         break;
                     case Bonus:
-                        g2d.setColor(Color.red);
-                        g2d.fillRect(c*wlk, r*wlk, wlk, wlk);
+                        g2d.setColor(new Color(255,204,102));
+                        g2d.fillOval(c*wlk+wlk/6, r*wlk+wlk/6, 2*wlk/3, 2*wlk/3);
                         break;
                     default:
                         break;
                 }
             }
         }
-    
     }
 } 

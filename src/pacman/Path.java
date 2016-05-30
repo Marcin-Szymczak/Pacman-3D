@@ -64,19 +64,19 @@ public class Path {
         
         for( Node n : data )
         {
-            int wlk = 12;
+            int wlk = Plansza.wlk;
             g2d.setColor(Color.PINK);
             g2d.fillRect( n.x*wlk+wlk/3, n.y*wlk+wlk/3, wlk-wlk/3*2, wlk-wlk/3*2 );
             if( null != n.parent )
                 g2d.drawLine(n.x*wlk+wlk/2, n.y*wlk+wlk/2, n.parent.x*wlk+wlk/2, n.parent.y*wlk+wlk/2 );
-            /*for( Node neighbour : n.neighbours )
+            for( Node neighbour : n.neighbours )
             {
                 if( null != neighbour )
                 {
                     g2d.setColor( Color.GREEN );
                     g2d.drawLine( n.x*wlk+wlk/2, n.y*wlk+wlk/2, neighbour.x*wlk+wlk/2, neighbour.y*wlk+wlk/2);
                 }
-            }*/
+            }
         }
     }
     
@@ -87,8 +87,9 @@ public class Path {
      * @param x - x wspolrzedna konca
      * @param y - y wspolrzedna konca
      */
-    public void find( int startx, int starty, int x, int y )
+    public boolean find( int startx, int starty, int x, int y )
     {
+        if( null == data ) return false;
         ArrayList<Node> open = new ArrayList<>();
         Node start=null;
         Node end=null;
@@ -101,8 +102,8 @@ public class Path {
         }
         if(null==start)
         {
-            System.out.print("Nie mozna szukac drogi z niewlasciwego punktu!");
-            return;
+            //System.out.print("Nie mozna szukac drogi z niewlasciwego punktu!");
+            return false;
         }
         
         open.add(start);
@@ -125,24 +126,24 @@ public class Path {
                 {
                     int new_estimated = (int)sqrt( (n.x - x)^2 + (n.y - y)^2 );
                     int new_cost = node.cost + 1;
+                    if( n.state == State.Blank )
+                            open.add( n );
                     if( n.state == State.Blank || n.cost > new_cost )
                     {
-                        if( n.state == State.Blank )
-                            open.add( n );
                         n.parent = node;
                         n.cost = new_cost;
                         n.estimated = new_estimated;
                     }
                     if( n.x == x && n.y == y )
                     {
-                        System.out.print("Znalazlem koniec!");
+                        //System.out.print("Znalazlem koniec!");
                         end = n;
                         praca = false;
                         break;
                     }
                 }
             }
-            if(!praca) break;
+            
 
             //Wyrzucam aktualny element
             Node temp = node;
@@ -150,12 +151,14 @@ public class Path {
             open.remove( open.size()-1 );
             
             Collections.sort( open );
+            if(!praca) break;
         }
         
         if( null == end )
         {
             data = null;
-            System.out.print("Brak drogi! :(");
+            //System.out.print("Brak drogi! :(");
+            return false;
         }
         else
         {
@@ -168,7 +171,8 @@ public class Path {
                 end = end.parent;
             }
             data = pathconstruct.toArray( new Node[ pathconstruct.size()] );
-            System.out.print("Droga zrekonstruowana");
+            //System.out.print("Droga zrekonstruowana");
         }
+        return true;
     }
 }
