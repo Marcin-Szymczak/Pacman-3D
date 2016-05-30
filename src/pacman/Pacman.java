@@ -40,6 +40,8 @@ public class Pacman extends JFrame {
         setBounds(50, 50, 800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
         setVisible(true);
         createBufferStrategy(2);
         
