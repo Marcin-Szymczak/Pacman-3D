@@ -38,7 +38,7 @@ public class Plansza {
         mapa = new Pole[HEIGHT][WIDTH];
     }
     
-    void zbudujWezly()
+    Path.Node[] zbudujWezly()
     {
         Path.Node[][] mapa2d = new Path.Node[HEIGHT][WIDTH];
         ArrayList<Path.Node> lista = new ArrayList<>();
@@ -84,7 +84,8 @@ public class Plansza {
                 
         }
         
-        wezly = lista.toArray( new Path.Node[ lista.size() ] );
+        //wezly = lista.toArray( new Path.Node[ lista.size() ] );
+        return lista.toArray( new Path.Node[ lista.size() ] );
     }
     
     
@@ -152,7 +153,7 @@ public class Plansza {
             System.exit(3);
         }
         
-        zbudujWezly();
+        //zbudujWezly();
     }
     
     public void rysuj(Graphics2D g2d) {

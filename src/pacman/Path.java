@@ -69,14 +69,14 @@ public class Path {
             g2d.fillRect( n.x*wlk+wlk/3, n.y*wlk+wlk/3, wlk-wlk/3*2, wlk-wlk/3*2 );
             if( null != n.parent )
                 g2d.drawLine(n.x*wlk+wlk/2, n.y*wlk+wlk/2, n.parent.x*wlk+wlk/2, n.parent.y*wlk+wlk/2 );
-            for( Node neighbour : n.neighbours )
+            /*for( Node neighbour : n.neighbours )
             {
                 if( null != neighbour )
                 {
                     g2d.setColor( Color.GREEN );
                     g2d.drawLine( n.x*wlk+wlk/2, n.y*wlk+wlk/2, neighbour.x*wlk+wlk/2, neighbour.y*wlk+wlk/2);
                 }
-            }
+            }*/
         }
     }
     

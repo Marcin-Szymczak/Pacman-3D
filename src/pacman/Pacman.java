@@ -22,24 +22,19 @@ public class Pacman extends JFrame {
     }
     public Plansza plansza;
     public Player player;
+    public Ghost ghost;
     Kierunek kierunek;
     public int klawiszGora = KeyEvent.VK_W;
     public int klawiszDol = KeyEvent.VK_S;
     public int klawiszLewo = KeyEvent.VK_A;
     public int klawiszPrawo = KeyEvent.VK_D;
     private Timer timer;
-    public Path path;
     
     class Krok extends TimerTask {
         @Override
         public void run() {
             player.ruch();
-            if( null != plansza.wezly )
-            {
-                plansza.zbudujWezly();
-                path.setData( plansza.wezly );
-                path.find( 1, 1, player.getTX(), player.getTY());
-            }
+            ghost.ruch();
             repaint();
         }
     }
@@ -56,7 +51,7 @@ public class Pacman extends JFrame {
         
         plansza.rysuj(g2d);
         player.rysuj(g2d);
-        path.rysuj(g2d);
+        ghost.rysuj(g2d);
         
         g2d.setColor( Color.BLACK );
         g2d.setFont(new Font("Arial",Font.BOLD,20));
@@ -111,8 +106,8 @@ public class Pacman extends JFrame {
         addKeyListener(new Przyciski());
         
         plansza = new Plansza();
-        path = new Path();
-        player = new Player(plansza);
+        player = new Player(plansza, 13.0, 17.0 );
+        ghost = new Ghost(plansza, player, 13.0, 15.0 );
         
         timer = new Timer();
         timer.scheduleAtFixedRate(new Krok(), 0, 100);
@@ -122,7 +117,7 @@ public class Pacman extends JFrame {
         Pacman pacman = new Pacman();
         pacman.repaint();
         
-        pacman.plansza.zaladuj( "001.p3dm" );
+        pacman.plansza.zaladuj( "data/001.p3dm" );
     }
     
 }

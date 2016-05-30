@@ -43,9 +43,9 @@ public class Player {
     private Direction direction;
     private Plansza level;
     
-    public Player( Plansza level ) {
-        posX = 13.0;
-        posY = 17.0;
+    public Player( Plansza level, double x, double y ) {
+        posX = x;//13.0;
+        posY = y;//17.0;
         direction = Direction.Up;
         this.level = level;
     }
