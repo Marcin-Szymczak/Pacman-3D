@@ -5,6 +5,7 @@
  */
 package pacman;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -29,6 +30,7 @@ public class Plansza {
 
     static final int WIDTH = 28;
     static final int HEIGHT = 31;
+    static final int wlk = 12;
     
     Pole[][] mapa;
     
@@ -94,15 +96,14 @@ public class Plansza {
     }
     
     public void rysuj(Graphics2D g2d) {
-        Polygon sciany = new Polygon();
         g2d.setColor(Color.black);
-        int wlk = 12;
         g2d.fillRect(0, 0, WIDTH*wlk+1, HEIGHT*wlk+1);
         for(int r = 0; r < HEIGHT; r++) {
             for(int c = 0; c < WIDTH; c++) {
                 if(null != mapa[r][c]) switch (mapa[r][c]) {
                     case Sciana:
                         g2d.setColor(Color.blue);
+                        g2d.setStroke(new BasicStroke(2));
                         g2d.drawRoundRect(c*wlk, r*wlk, wlk, wlk, 5, 5);
                         break;
                     case Punkt:
