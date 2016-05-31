@@ -20,7 +20,8 @@ public class Pacman extends JFrame {
    
     public Plansza plansza;
     public Player player;
-    public Ghost ghost;
+    public Ghost[] ghost;
+    
     public int klawiszGora = KeyEvent.VK_W;
     public int klawiszDol = KeyEvent.VK_S;
     public int klawiszLewo = KeyEvent.VK_A;
@@ -30,8 +31,14 @@ public class Pacman extends JFrame {
     class Krok extends TimerTask {
         @Override
         public void run() {
-            player.ruch();
-            ghost.ruch();
+            player.update();
+            
+            for (Ghost g : ghost)
+            {
+                if( null != g )
+                    g.update();
+            }
+            plansza.update();
             repaint();
         }
     }
@@ -48,12 +55,18 @@ public class Pacman extends JFrame {
         
         plansza.rysuj(g2d);
         player.rysuj(g2d);
-        ghost.rysuj(g2d);
-        
-        g2d.setColor( Color.BLACK );
+
+        for(Ghost gh : ghost)
+        {
+            if( null != gh )
+                gh.rysuj(g2d);
+        }
+
+        g2d.setColor( Color.WHITE );
         g2d.setFont(new Font("Arial",Font.BOLD,20));
         g2d.drawString("X: " + player.getTX(), 500, 20);
-        g2d.drawString("Y: "+ player.getTY(), 500, 45);
+        g2d.drawString("Y: "+ player.getTY(), 500, 40);
+        g2d.drawString("SCORE: "+ player.getScore(), 500, 60 );
         
         g2d.dispose();
         bs.show();
@@ -100,7 +113,11 @@ public class Pacman extends JFrame {
         
         plansza = new Plansza();
         player = new Player(plansza, 13.0, 17.0 );
-        ghost = new Ghost(plansza, player, 13.0, 15.0 );
+        ghost = new Ghost[2];
+        ghost[0] = new Ghost(plansza, player, 13.0, 15.0, 1, 1 );
+        ghost[1] = new Ghost(plansza, player, 14.0, 15.0, WIDTH-1, HEIGHT-1 );
+        //ghost[2] = null;
+        //ghost[3] = null;
         
         timer = new Timer();
         timer.scheduleAtFixedRate(new Krok(), 0, 100);

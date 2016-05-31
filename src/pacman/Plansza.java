@@ -29,13 +29,18 @@ public class Plansza {
 
     static final int WIDTH = 28;
     static final int HEIGHT = 31;
-    static final int wlk = 12;
+    static final int wlk = 15;
+    static int fear = 0;
     
     Pole[][] mapa;
     Path.Node[] wezly;
     
     public Plansza() {
         mapa = new Pole[HEIGHT][WIDTH];
+    }
+    
+    public void update() {
+        if(fear > 0) fear--;
     }
     
     Path.Node[] zbudujWezly()
@@ -174,7 +179,7 @@ public class Plansza {
                         break;
                     case Punkt:
                         g2d.setColor(new Color(255,204,102));
-                        g2d.fillOval(c*wlk+wlk/3, r*wlk+wlk/3, wlk/3, wlk/3);
+                        g2d.fillOval(c*wlk+wlk/4, r*wlk+wlk/4, wlk/4*2, wlk/4*2);
                         break;
                     case Bonus:
                         g2d.setColor(new Color(255,204,102));

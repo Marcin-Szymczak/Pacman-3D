@@ -41,13 +41,17 @@ public class Player {
     
     private double posX, posY;
     private Direction direction;
+    private Direction future;
     private Plansza level;
+    private int score;
     
     public Player( Plansza level, double x, double y ) {
         posX = x;//13.0;
         posY = y;//17.0;
         direction = Direction.Up;
+        future = direction;
         this.level = level;
+        score=0;
     }
     
     public void rysuj(Graphics2D g2d) {
@@ -55,11 +59,18 @@ public class Player {
         g2d.fillOval((int)posX*Plansza.wlk, (int)posY*Plansza.wlk, pacman.Plansza.wlk, pacman.Plansza.wlk);
     }
     
+    public int getScore()
+    {
+        return score;
+    }
+    
     public void setDirection( Direction direction )
     {
-        Dir dir = new Dir( direction );
-        if( level.jakiePole( getTX()+dir.dx, getTY()+dir.dy ) != Plansza.Pole.Sciana )
-            this.direction = direction;
+        //Dir dir = new Dir( direction );
+        //if( level.jakiePole( getTX()+dir.dx, getTY()+dir.dy ) != Plansza.Pole.Sciana )
+            //this.direction = direction;
+        future = direction;
+            
     }
     
     /**
@@ -67,14 +78,22 @@ public class Player {
      * 
      * @param plansza 
      */
-    public void ruch() {
+    public void update() {
         
         //posX += dx*pacman.Plansza.wlk;
         //posY += dy*pacman.Plansza.wlk;
         Dir dir = new Dir(direction);
+        Dir fut = new Dir(future);
+        
+        if( direction != future && level.jakiePole( getTX()+fut.dx, getTY()+fut.dy ) != Plansza.Pole.Sciana )
+        {
+            direction = future;
+            dir = fut;
+        }
         
         double npx = (posX+dir.dx);
         double npy = (posY+dir.dy);
+        
         if( npx >= Plansza.WIDTH )
             npx = npx - Plansza.WIDTH;
         if( npx < 0 )
@@ -89,6 +108,18 @@ public class Player {
         {
             posX = npx;
             posY = npy;
+        }
+        
+        if( level.jakiePole( getTX(), getTY() ) == Plansza.Pole.Punkt )
+        {
+            level.ustaw( getTX(), getTY(), Plansza.Pole.Puste );
+            score++;
+        }
+        
+        if( level.jakiePole( getTX(), getTY() ) == Plansza.Pole.Bonus )
+        {
+            level.ustaw( getTX(), getTY(), Plansza.Pole.Puste);
+            Plansza.fear = 100;
         }
         
     }

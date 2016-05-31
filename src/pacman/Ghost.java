@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 public class Ghost {
     double posX;
     double posY;
+    int homex;
+    int homey;
     int tick;
     Player target;
     Plansza level;
@@ -28,7 +30,7 @@ public class Ghost {
         Follow, Intercept, Flee, Random
     }
     
-    Ghost(Plansza level, Player player, double x, double y )
+    Ghost(Plansza level, Player player, double x, double y, int homex, int homey )
     {
         this.target = player;
         this.level = level;
@@ -37,14 +39,18 @@ public class Ghost {
         posY = y;
         path = new Path();
         tick = 0;
+        this.homex = homex;
+        this.homey = homey;
     }
     
-    public void ruch()
+    public void update()
     {
         if( tick == 0 )
         {
             path.setData( level.zbudujWezly() );
-            path.find( getTX(), getTY(), target.getTX(), target.getTY());
+            
+            if(Plansza.fear == 0) path.find( getTX(), getTY(), target.getTX(), target.getTY());
+            else path.find( getTX(), getTY(), 1, 1);
 
             if( null != path.data && path.data.length >= 1 )
             {
@@ -58,7 +64,7 @@ public class Ghost {
     
     public void rysuj( Graphics2D g2d )
     {
-        path.rysuj(g2d,true,false);
+        //path.rysuj(g2d,true,false);
         g2d.setColor( Color.WHITE );
         g2d.drawImage( img, (int)posX*Plansza.wlk, (int)posY*Plansza.wlk, null );
 
