@@ -75,6 +75,16 @@ public class Player {
         
         double npx = (posX+dir.dx);
         double npy = (posY+dir.dy);
+        if( npx >= Plansza.WIDTH )
+            npx = npx - Plansza.WIDTH;
+        if( npx < 0 )
+            npx = npx + Plansza.WIDTH;
+        
+        if( npy >= Plansza.HEIGHT )
+            npy = npy - Plansza.HEIGHT;
+        if( npy < 0 )
+            npy = npy + Plansza.HEIGHT;
+        
         if( level.jakiePole( (int)npx, (int)npy ) != Plansza.Pole.Sciana )
         {
             posX = npx;

@@ -17,13 +17,10 @@ import javax.swing.JFrame;
  * @author Michał i Marcin
  */
 public class Pacman extends JFrame {
-    public enum Kierunek {
-        Gora, Dol, Lewo, Prawo
-    }
+   
     public Plansza plansza;
     public Player player;
     public Ghost ghost;
-    Kierunek kierunek;
     public int klawiszGora = KeyEvent.VK_W;
     public int klawiszDol = KeyEvent.VK_S;
     public int klawiszLewo = KeyEvent.VK_A;
@@ -67,19 +64,15 @@ public class Pacman extends JFrame {
             int klawisz = e.getKeyCode();
             
             if(klawisz == klawiszGora) {
-                //if(plansza.mapa[player.getY()/plansza.wlk -1][player.getX()/plansza.wlk] != pacman.Plansza.Pole.Sciana) kierunek = Kierunek.Gora;
                 player.setDirection( Player.Direction.Up );
             }
             if(klawisz == klawiszDol) {
-                //if(plansza.mapa[player.getY()/plansza.wlk +1][player.getX()/plansza.wlk] != pacman.Plansza.Pole.Sciana) kierunek = Kierunek.Dol;
                 player.setDirection( Player.Direction.Down );
             }
             if(klawisz == klawiszLewo) {
-                //if(plansza.mapa[player.getY()/plansza.wlk][player.getX()/plansza.wlk -1] != pacman.Plansza.Pole.Sciana) kierunek = Kierunek.Lewo;
                 player.setDirection( Player.Direction.Left );
             }
             if(klawisz == klawiszPrawo) {
-                //if(plansza.mapa[player.getY()/plansza.wlk][player.getX()/plansza.wlk +1] != pacman.Plansza.Pole.Sciana) kierunek = Kierunek.Prawo;
                 player.setDirection( Player.Direction.Right );
             }
         }

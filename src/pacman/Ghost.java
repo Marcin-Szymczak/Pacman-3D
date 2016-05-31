@@ -36,7 +36,7 @@ public class Ghost {
         posX = x;
         posY = y;
         path = new Path();
-        tick=0;
+        tick = 0;
     }
     
     public void ruch()
@@ -46,7 +46,7 @@ public class Ghost {
             path.setData( level.zbudujWezly() );
             path.find( getTX(), getTY(), target.getTX(), target.getTY());
 
-            if( path.data.length >= 1 )
+            if( null != path.data && path.data.length >= 1 )
             {
                 Path.Node n = path.data[ path.data.length-2 ]; //path.data[0] to miejsce w ktorym jestesmy aktualnie
                 this.posX = (double)n.x;
@@ -58,7 +58,7 @@ public class Ghost {
     
     public void rysuj( Graphics2D g2d )
     {
-        path.rysuj(g2d);
+        path.rysuj(g2d,true,false);
         g2d.setColor( Color.WHITE );
         g2d.drawImage( img, (int)posX*Plansza.wlk, (int)posY*Plansza.wlk, null );
 

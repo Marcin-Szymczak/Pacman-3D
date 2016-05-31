@@ -70,17 +70,22 @@ public class Plansza {
         {
             
             int i=0;
-            if( n.x-1 >= 0 && null != mapa2d[n.y][n.x-1] )
-                n.neighbours[i++] = mapa2d[n.y][n.x-1];
+            int lx = ( (n.x-1)%WIDTH + WIDTH )%WIDTH;
+            int rx = (n.x+1)%WIDTH;
+            int uy = ( (n.y-1)%HEIGHT + HEIGHT)%HEIGHT;
+            int dy = (n.y+1)%HEIGHT;
             
-            if( n.x+1 < WIDTH && null != mapa2d[n.y][n.x+1])
-                n.neighbours[i++] = mapa2d[n.y][n.x+1];
+            if( lx >= 0 && null != mapa2d[n.y][lx] )
+                n.neighbours[i++] = mapa2d[n.y][lx];
             
-            if( n.y-1 >= 0 && null != mapa2d[n.y-1][n.x])
-                n.neighbours[i++] = mapa2d[n.y-1][n.x];
+            if( rx < WIDTH && null != mapa2d[n.y][rx])
+                n.neighbours[i++] = mapa2d[n.y][rx];
             
-            if( n.y+1 < HEIGHT && null != mapa2d[n.y+1][n.x])
-                n.neighbours[i++] = mapa2d[n.y+1][n.x];
+            if( uy >= 0 && null != mapa2d[uy][n.x])
+                n.neighbours[i++] = mapa2d[uy][n.x];
+            
+            if( dy < HEIGHT && null != mapa2d[dy][n.x])
+                n.neighbours[i++] = mapa2d[dy][n.x];
                 
         }
         

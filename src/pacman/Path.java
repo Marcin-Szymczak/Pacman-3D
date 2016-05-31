@@ -58,7 +58,7 @@ public class Path {
         this.data = data;
     }
     
-    void rysuj( Graphics2D g2d )
+    void rysuj( Graphics2D g2d, boolean parents, boolean neighbours )
     {
         if( null == data ) return;
         
@@ -67,16 +67,22 @@ public class Path {
             int wlk = Plansza.wlk;
             g2d.setColor(Color.PINK);
             g2d.fillRect( n.x*wlk+wlk/3, n.y*wlk+wlk/3, wlk-wlk/3*2, wlk-wlk/3*2 );
-            if( null != n.parent )
-                g2d.drawLine(n.x*wlk+wlk/2, n.y*wlk+wlk/2, n.parent.x*wlk+wlk/2, n.parent.y*wlk+wlk/2 );
-            /*for( Node neighbour : n.neighbours )
+            if( parents )
             {
-                if( null != neighbour )
+                if( null != n.parent )
+                    g2d.drawLine(n.x*wlk+wlk/2, n.y*wlk+wlk/2, n.parent.x*wlk+wlk/2, n.parent.y*wlk+wlk/2 );
+            }
+            if( neighbours )
+            {
+                for( Node neighbour : n.neighbours )
                 {
-                    g2d.setColor( Color.GREEN );
-                    g2d.drawLine( n.x*wlk+wlk/2, n.y*wlk+wlk/2, neighbour.x*wlk+wlk/2, neighbour.y*wlk+wlk/2);
+                    if( null != neighbour )
+                    {
+                        g2d.setColor( Color.GREEN );
+                        g2d.drawLine( n.x*wlk+wlk/2, n.y*wlk+wlk/2, neighbour.x*wlk+wlk/2, neighbour.y*wlk+wlk/2);
+                    }
                 }
-            }*/
+            }
         }
     }
     
@@ -90,9 +96,17 @@ public class Path {
     public boolean find( int startx, int starty, int x, int y )
     {
         if( null == data ) return false;
+        // Szukam drogi do tego samego miejsca, brak, bo juz jestem :)
+        if( startx == x && starty == y ) 
+        {
+            data = null;
+            return false;
+        }
+        
         ArrayList<Node> open = new ArrayList<>();
         Node start=null;
         Node end=null;
+        
         for( Node n : data )
         {
             if( n.x == startx && n.y == starty ){
@@ -102,7 +116,7 @@ public class Path {
         }
         if(null==start)
         {
-            //System.out.print("Nie mozna szukac drogi z niewlasciwego punktu!");
+            data = null;
             return false;
         }
         
@@ -143,7 +157,6 @@ public class Path {
                     }
                 }
             }
-            
 
             //Wyrzucam aktualny element
             Node temp = node;
