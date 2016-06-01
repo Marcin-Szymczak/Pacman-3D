@@ -10,13 +10,15 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.TimerTask;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
  * @author Michał
  */
-public class Panel extends JPanel implements Runnable, KeyListener {
+public class Panel extends JPanel {
     
     //Dimension
     public static final int WIDTH = 320;
@@ -24,10 +26,7 @@ public class Panel extends JPanel implements Runnable, KeyListener {
     public static final int SCALE = 3;
     
     //Main loop
-    private Thread thread;
-    private boolean running = false;
-    private int FPS = 60;
-    private long targetTime = 1000/FPS;
+    private Timer timer;
     
     //Drawing
     private Graphics2D g2d;
@@ -58,39 +57,12 @@ public class Panel extends JPanel implements Runnable, KeyListener {
         g.dispose();
     }
     
-    public void addNotify() {
-        super.addNotify();
-        if(thread == null) {
-            running = true;
-            addKeyListener(this);
-            thread = new Thread(this);
-            thread.start();
-        }
-    }
-    
-    public void run() {
-        init();
-        
-        long start;
-        long elapsed;
-        long wait;
-        
-        while(running) {
-            start = System.nanoTime();
-            
+    class Krok extends TimerTask {
+        @Override
+        public void run() {
             update();
             draw();
             drawToScreen();
-            
-            elapsed = System.nanoTime() - start;
-            wait = targetTime - elapsed / 1000000;
-            
-            if(wait < 0) wait = 5;
-            try {
-                Thread.sleep(wait);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
     
@@ -105,7 +77,9 @@ public class Panel extends JPanel implements Runnable, KeyListener {
     public void keyTyped(KeyEvent key) {
     }
     
-    Panel() {
+    public Panel() {
+        init();
+    
         setFocusable(true);
         requestFocus();
     }
