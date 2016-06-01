@@ -10,9 +10,9 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 /**
  *
@@ -82,5 +82,8 @@ public class Panel extends JPanel {
     
         setFocusable(true);
         requestFocus();
+        
+        timer = new java.util.Timer();
+        timer.scheduleAtFixedRate(new Krok(), 0, 100);
     }
 }
