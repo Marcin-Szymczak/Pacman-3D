@@ -35,13 +35,6 @@ public class Panel extends JPanel {
     //State Manager
     private StateManager state;
     
-    public void init() {
-        image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
-        g2d = (Graphics2D) image.getGraphics();
-        
-        state = new StateManager(g2d);
-    }
-    
     public void update() {
         state.update(g2d);
     }
@@ -49,21 +42,6 @@ public class Panel extends JPanel {
     public void draw() {
         g2d.clearRect(0, 0, 800, 600);
         state.draw(g2d);
-    }
-    
-    public void drawToScreen() {
-        Graphics g = getGraphics();
-        g.drawImage(image, 0, 0, 800, 600, null);
-        g.dispose();
-    }
-    
-    class Krok extends TimerTask {
-        @Override
-        public void run() {
-            update();
-            draw();
-            drawToScreen();
-        }
     }
     
     public void keyPressed(KeyEvent key) {
@@ -78,12 +56,9 @@ public class Panel extends JPanel {
     }
     
     public Panel() {
-        init();
-    
         setFocusable(true);
         requestFocus();
         
-        timer = new java.util.Timer();
-        timer.scheduleAtFixedRate(new Krok(), 0, 100);
+        state = new StateManager(g2d);
     }
 }

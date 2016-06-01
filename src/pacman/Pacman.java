@@ -25,5 +25,4 @@ public class Pacman extends JFrame{
     public static void main(String[] args) {
         Pacman pacman = new Pacman();
     }
-    
 }

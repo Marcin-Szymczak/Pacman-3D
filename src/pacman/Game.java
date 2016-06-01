@@ -32,10 +32,10 @@ public class Game extends State{
     public void update(Graphics2D g2d) {
             player.ruch();
             ghost.ruch();
-            draw(g2d);
+            repaint();
     }
     
-    public void draw(Graphics2D g2d) {
+    public void paint(Graphics g) {
         g2d.setColor( Color.DARK_GRAY );
         //g2d.fillRect(0, 0, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
         g2d.fillRect(0, 0, 800, 600);
