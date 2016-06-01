@@ -20,15 +20,15 @@ public class StateManager {
     public static final int MENUSTATE = 0;
     public static final int GAMESTATE = 1;
     
-    public StateManager() {
+    public StateManager(Graphics2D g2d) {
         states = new ArrayList<State>();
         states.add(new Game(this));
         
-        states.get(currentState).update();
+        states.get(currentState).update(g2d);
     }
     
-    public void update() {
-        states.get(currentState).update();
+    public void update(Graphics2D g2d) {
+        states.get(currentState).update(g2d);
     }
     
     public void draw(Graphics2D g2d) {

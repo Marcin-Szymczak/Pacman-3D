@@ -29,14 +29,16 @@ public class Game extends State{
         
     }
     
-    public void update() {
+    public void update(Graphics2D g2d) {
             player.ruch();
             ghost.ruch();
+            draw(g2d);
     }
     
     public void draw(Graphics2D g2d) {
         g2d.setColor( Color.DARK_GRAY );
-        g2d.fillRect(0, 0, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
+        //g2d.fillRect(0, 0, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
+        g2d.fillRect(0, 0, 800, 600);
         g2d.translate(10, 30);
         
         plansza.rysuj(g2d);
@@ -78,6 +80,8 @@ public class Game extends State{
         plansza = new Plansza();
         player = new Player(plansza, 13.0, 17.0 );
         ghost = new Ghost(plansza, player, 13.0, 15.0 );
+        
+        plansza.zaladuj( "data/001.p3dm" );
     }
     
 }

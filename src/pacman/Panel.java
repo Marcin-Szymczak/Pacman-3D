@@ -37,24 +37,24 @@ public class Panel extends JPanel implements Runnable, KeyListener {
     private StateManager state;
     
     public void init() {
-        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
         g2d = (Graphics2D) image.getGraphics();
         
-        state = new StateManager();
+        state = new StateManager(g2d);
     }
     
     public void update() {
-        state.update();
+        state.update(g2d);
     }
     
     public void draw() {
-        g2d.clearRect(0, 0, WIDTH, HEIGHT);
+        g2d.clearRect(0, 0, 800, 600);
         state.draw(g2d);
     }
     
     public void drawToScreen() {
         Graphics g = getGraphics();
-        g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+        g.drawImage(image, 0, 0, 800, 600, null);
         g.dispose();
     }
     

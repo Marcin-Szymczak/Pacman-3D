@@ -24,7 +24,7 @@ public class Menu extends State{
         
     }
     
-    public void update(){
+    public void update(Graphics2D g2d){
         
     }
     
