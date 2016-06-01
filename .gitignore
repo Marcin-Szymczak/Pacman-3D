@@ -1,0 +1,6 @@
+*.netbeans_automatic_build
+build/classes/.netbeans_update_resources
+*.class
+nbproject/private/private.properties
+nbproject/private/private.properties
+*.properties

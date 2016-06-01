@@ -1,21 +1,12 @@
 package pacman;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferStrategy;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JFrame;
 
 /**
  *
  * @author Michał i Marcin
  */
+<<<<<<< HEAD
 public class Pacman extends JFrame {
    
     public Plansza plansza;
@@ -121,13 +112,16 @@ public class Pacman extends JFrame {
         
         timer = new Timer();
         timer.scheduleAtFixedRate(new Krok(), 0, 100);
+=======
+public class Pacman extends JFrame{
+    public static Panel frame;
+    
+    Pacman() { 
+        frame = new Panel();
+>>>>>>> refs/remotes/origin/Michal
     }
 
     public static void main(String[] args) {
         Pacman pacman = new Pacman();
-        pacman.repaint();
-        
-        pacman.plansza.zaladuj( "data/001.p3dm" );
     }
-    
 }
