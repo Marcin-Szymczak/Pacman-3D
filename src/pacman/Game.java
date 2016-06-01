@@ -7,20 +7,15 @@ package pacman;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
-import java.util.Timer;
-import java.util.TimerTask;
-import javax.swing.JFrame;
 
 /**
  *
  * @author Michał
  */
-public class Game extends JFrame{
+public class Game extends State{
     
     public Plansza plansza;
     public Player player;
@@ -29,20 +24,18 @@ public class Game extends JFrame{
     public int klawiszDol = KeyEvent.VK_S;
     public int klawiszLewo = KeyEvent.VK_A;
     public int klawiszPrawo = KeyEvent.VK_D;
-    private Timer timer;
    
-    class Krok extends TimerTask {
-        @Override
-        public void run() {
-            player.ruch();
-            ghost.ruch();
-            repaint();
-        }
+    public void init() {
+        
     }
     
-    @Override
-    public void paint(Graphics g) {
-        BufferStrategy bs = this.getBufferStrategy();
+    public void update() {
+            player.ruch();
+            ghost.ruch();
+    }
+    
+    public void draw(Graphics2D g) {
+        BufferStrategy bs = pacman.Pacman.frame.getBufferStrategy();
         //if( null == bs ) return;
         Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
         //if( null == g2d ) return;
@@ -63,51 +56,33 @@ public class Game extends JFrame{
         bs.show();
     }
     
-    public class Przyciski extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            int klawisz = e.getKeyCode();
+    public void keyPressed(int key) {
+        int klawisz = key;
             
-            if(klawisz == klawiszGora) {
-                player.setDirection( Player.Direction.Up );
-            }
-            if(klawisz == klawiszDol) {
-                player.setDirection( Player.Direction.Down );
-            }
-            if(klawisz == klawiszLewo) {
-                player.setDirection( Player.Direction.Left );
-            }
-            if(klawisz == klawiszPrawo) {
-                player.setDirection( Player.Direction.Right );
-            }
+        if(klawisz == klawiszGora) {
+            player.setDirection( Player.Direction.Up );
         }
-        
-        public void keyRelased(KeyEvent e) {
-            
+        if(klawisz == klawiszDol) {
+            player.setDirection( Player.Direction.Down );
         }
-        
-        public void keyTyped(KeyEvent e) {
-            
+        if(klawisz == klawiszLewo) {
+            player.setDirection( Player.Direction.Left );
+        }
+        if(klawisz == klawiszPrawo) {
+            player.setDirection( Player.Direction.Right );
         }
     }
     
-    Game() {
-        super("Pacman 3D - Woźniak Szymczak");
-        setBounds(50, 50, 800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
-        setVisible(true);
-        createBufferStrategy(2);
+    public void keyReleased(int key){
         
-        addKeyListener(new Game.Przyciski());
+    }
+    
+    Game(StateManager state) {
+        this.state = state;
         
         plansza = new Plansza();
         player = new Player(plansza, 13.0, 17.0 );
         ghost = new Ghost(plansza, player, 13.0, 15.0 );
-        
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new Krok(), 0, 100);
     }
     
 }
