@@ -10,19 +10,23 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-
 /**
  *
  * @author Michał
  */
 public class Menu extends State{
-    public int klawiszGora = KeyEvent.VK_W;
-    public int klawiszDol = KeyEvent.VK_S;
+    private int klawiszGora = KeyEvent.VK_W;
+    private int klawiszDol = KeyEvent.VK_S;
+    private int klawiszEnter = KeyEvent.VK_ENTER;
+    private menuOptions pos;
+    
+    public enum menuOptions {
+        Start, Wyniki, Koniec
+    }
     
     public void update(){
         
     }
-    
     
     public void draw(Graphics2D g2d) {
         g2d.setColor( Color.BLACK );
@@ -37,10 +41,20 @@ public class Menu extends State{
         int klawisz = key;
             
         if(klawisz == klawiszGora) {
-            state.setState(pacman.StateManager.GAMESTATE);
+            
         }
         if(klawisz == klawiszDol) {
                 
+        }
+        if(klawisz == klawiszEnter){
+            switch(pos) {
+                case Start:
+                    state.setState(pacman.StateManager.GAMESTATE);
+                    break;
+                default:
+                    break;
+            }
+            
         }
     }
         
@@ -50,5 +64,7 @@ public class Menu extends State{
     
     Menu(StateManager state) {
         this.state = state;
+        
+        pos = menuOptions.Start;
     }
 }

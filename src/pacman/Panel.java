@@ -26,9 +26,9 @@ import javax.swing.JPanel;
 public class Panel extends JFrame {
     
     //Dimension
-//    public static final int WIDTH = 320;
-//    public static final int HEIGHT = 240;
-//    public static final int SCALE = 3;
+//    public static final int WIDTH = 640;
+//    public static final int HEIGHT = 360;
+//    public static int SCALE = 2;
     
     //Main loop
     private Timer timer;
@@ -76,12 +76,11 @@ public class Panel extends JFrame {
     
     public Panel() {
         setTitle("Pacman 3D - Woźniak Szymczak");
-        //frame.setBounds(50, 50, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
         setBounds(50, 50, 800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
-//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        frame.setUndecorated(true);
         setVisible(true);
         createBufferStrategy(2);
         setFocusable(true);
