@@ -29,11 +29,7 @@ public class Plansza {
 
     static final int WIDTH = 28;
     static final int HEIGHT = 31;
-<<<<<<< HEAD
-    static final int wlk = 15;
-=======
     static final int wlk = 12;
->>>>>>> refs/remotes/origin/Michal
     static int fear = 0;
     
     Pole[][] mapa;
