@@ -30,12 +30,17 @@ public class Plansza {
     static final int WIDTH = 28;
     static final int HEIGHT = 31;
     static final int wlk = 12;
+    static int fear = 0;
     
     Pole[][] mapa;
     Path.Node[] wezly;
     
     public Plansza() {
         mapa = new Pole[HEIGHT][WIDTH];
+    }
+    
+    public void update() {
+        if(fear > 0) fear--;
     }
     
     Path.Node[] zbudujWezly()

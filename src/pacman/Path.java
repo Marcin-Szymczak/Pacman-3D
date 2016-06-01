@@ -66,7 +66,7 @@ public class Path {
         {
             int wlk = Plansza.wlk;
             g2d.setColor(Color.PINK);
-            g2d.fillRect( n.x*wlk+wlk/3, n.y*wlk+wlk/3, wlk-wlk/3*2, wlk-wlk/3*2 );
+            g2d.fillRect( n.x*wlk+wlk/6*2, n.y*wlk+wlk/6*2, wlk/6*2, wlk/6*2 );
             if( parents )
             {
                 if( null != n.parent )

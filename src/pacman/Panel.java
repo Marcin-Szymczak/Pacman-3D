@@ -5,60 +5,93 @@
  */
 package pacman;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Michał
  */
-public class Panel extends JPanel {
+public class Panel extends JFrame {
     
     //Dimension
-    public static final int WIDTH = 320;
-    public static final int HEIGHT = 240;
-    public static final int SCALE = 3;
+//    public static final int WIDTH = 320;
+//    public static final int HEIGHT = 240;
+//    public static final int SCALE = 3;
     
     //Main loop
     private Timer timer;
     
-    //Drawing
-    private Graphics2D g2d;
-    private BufferedImage image;
-    
     //State Manager
-    private StateManager state;
+    public StateManager state;
     
-    public void update() {
-        state.update(g2d);
+    class Krok extends TimerTask {
+        @Override
+        public void run() {
+            state.update();
+            repaint();
+        }
     }
     
-    public void draw() {
-        g2d.clearRect(0, 0, 800, 600);
+    @Override
+    public void paint(Graphics g) {
+        BufferStrategy bs = this.getBufferStrategy();
+        //if( null == bs ) return;
+        Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
+        //if( null == g2d ) return;
+        g2d.setColor( Color.BLACK );
+        g2d.fillRect(0, 0, 800, 600);
+        g2d.translate(10, 30);
+        
         state.draw(g2d);
+        
+        g2d.dispose();
+        bs.show();
     }
     
-    public void keyPressed(KeyEvent key) {
-        state.keyPressed(key.getKeyCode());
-    }
-    
-    public void keyReleased(KeyEvent key) {
-        state.keyReleased(key.getKeyCode());
-    }
-    
-    public void keyTyped(KeyEvent key) {
+    public class Przyciski extends KeyAdapter {
+        public void keyPressed(KeyEvent e) {
+            state.keyPressed(e.getKeyCode());
+        }
+        
+        public void keyRelased(KeyEvent e) {
+            
+        }
+        
+        public void keyTyped(KeyEvent e) {
+            
+        }
     }
     
     public Panel() {
+        setTitle("Pacman 3D - Woźniak Szymczak");
+        //frame.setBounds(50, 50, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
+        setBounds(50, 50, 800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(true);
+//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        frame.setUndecorated(true);
+        setVisible(true);
+        createBufferStrategy(2);
         setFocusable(true);
         requestFocus();
         
-        state = new StateManager(g2d);
+        addKeyListener(new Przyciski());
+        
+        state = new StateManager();
+        
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new Krok(), 0, 100);
     }
 }
