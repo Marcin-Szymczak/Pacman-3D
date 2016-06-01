@@ -56,7 +56,7 @@ public class Player {
     
     public void rysuj(Graphics2D g2d) {
         g2d.setColor(Color.yellow);
-        g2d.fillOval((int)posX*Plansza.wlk, (int)posY*Plansza.wlk, pacman.Plansza.wlk, pacman.Plansza.wlk);
+        g2d.fillOval((int)posX*Plansza.wlk, (int)posY*Plansza.wlk, Plansza.wlk, Plansza.wlk);
     }
     
     public int getScore()

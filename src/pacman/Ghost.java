@@ -50,7 +50,7 @@ public class Ghost {
             path.setData( level.zbudujWezly() );
             
             if(Plansza.fear == 0) path.find( getTX(), getTY(), target.getTX(), target.getTY());
-            else path.find( getTX(), getTY(), 1, 1);
+            else path.find( getTX(), getTY(), homex, homey);
 
             if( null != path.data && path.data.length >= 1 )
             {
