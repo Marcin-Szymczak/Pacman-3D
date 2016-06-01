@@ -22,7 +22,7 @@ public class StateManager {
     
     public StateManager() {
         states = new ArrayList<State>();
-        states.add(new Menu(this));
+        states.add(new Game(this));
         
         states.get(currentState).update();
     }

@@ -1,9 +1,6 @@
 package pacman;
 
 import javax.swing.JFrame;
-import static pacman.Panel.HEIGHT;
-import static pacman.Panel.SCALE;
-import static pacman.Panel.WIDTH;
 
 /**
  *
@@ -15,11 +12,11 @@ public class Pacman extends JFrame{
     Pacman() { 
         frame = new JFrame();
         frame.setTitle("Pacman 3D - Woźniak Szymczak");
-        frame.setBounds(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+        frame.setBounds(50, 50, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
+//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        frame.setUndecorated(true);
         frame.setContentPane(new Panel());
         frame.setVisible(true);
     }

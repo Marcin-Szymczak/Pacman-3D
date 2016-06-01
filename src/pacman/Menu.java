@@ -28,20 +28,15 @@ public class Menu extends State{
         
     }
     
-    public void draw(Graphics2D g) {
-        BufferStrategy bs = pacman.Pacman.frame.getBufferStrategy();
-        //if( null == bs ) return;
-        Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
-        if( null == g2d ) return;
+    public void draw(Graphics2D g2d) {
         g2d.setColor( Color.BLACK );
-        g2d.fillRect(0, 0, 800, 600);
+        g2d.fillRect(0, 0, pacman.Panel.WIDTH*pacman.Panel.SCALE, pacman.Panel.HEIGHT*pacman.Panel.SCALE);
         
         g2d.setColor( Color.WHITE );
-        g2d.setFont(new Font("Arial",Font.BOLD,50));
-        g2d.drawString("PACMAN 3D", 270, 100);
+        g2d.setFont(new Font("Arial",Font.BOLD,20));
+        g2d.drawString("PACMAN 3D", 100, 30);
         
         g2d.dispose();
-        bs.show();
     }
     
     public void keyPressed(int key) {
