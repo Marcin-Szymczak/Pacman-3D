@@ -22,6 +22,7 @@ public class Ghost {
     int tick;
     Player target;
     Plansza level;
+    Strategy strategy;
     Image img;
     Path path;
     
@@ -30,10 +31,11 @@ public class Ghost {
         Follow, Intercept, Flee, Random
     }
     
-    Ghost(Plansza level, Player player, double x, double y, int homex, int homey )
+    Ghost(Plansza level, Player player, Strategy strategy, double x, double y, int homex, int homey )
     {
         this.target = player;
         this.level = level;
+        this.strategy = strategy;
         img = new ImageIcon("data/ghost.png").getImage();
         posX = x;
         posY = y;
@@ -49,7 +51,8 @@ public class Ghost {
         {
             path.setData( level.zbudujWezly() );
             
-            if(Plansza.fear == 0) path.find( getTX(), getTY(), target.getTX(), target.getTY());
+            if(Plansza.fear == 0 && strategy == Strategy.Follow) path.find( getTX(), getTY(), target.getTX(), target.getTY());
+            else if (Plansza.fear == 0 && strategy == Strategy.Intercept) path.find( getTX(), getTY(), crossroad(target)[0], crossroad(target)[1]);
             else path.find( getTX(), getTY(), homex, homey);
 
             if( null != path.data && path.data.length >= 1 )
@@ -66,8 +69,52 @@ public class Ghost {
     {
         //path.rysuj(g2d,true,false);
         g2d.setColor( Color.WHITE );
-        g2d.drawImage( img, (int)posX*Plansza.wlk, (int)posY*Plansza.wlk, null );
+        g2d.drawImage( img, Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+(int)posX*Plansza.wlk, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+(int)posY*Plansza.wlk, null );
 
+    }
+    
+    public int[] crossroad(Player player) {
+        int[] pos = new int[2];
+        pos[0] = player.getTX();
+        pos[1] = player.getTY();
+        Player.Direction dir = player.getDirection();
+        
+        while(!isCrossroad(pos[0], pos[1])) {
+            if(null != dir) switch (dir) {
+                case Up:
+                    pos[1]++;
+                    break;
+                case Down:
+                    pos[1]--;
+                    break;
+                case Left:
+                    pos[0]--;
+                    break;
+                case Right:
+                    pos[0]++;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        return pos;
+    }
+    
+    public boolean isCrossroad(int TX, int TY) {
+        int neighbours = 0;
+        if(level.jakiePole(TX, TY) != Plansza.Pole.Sciana) {
+            for (int dx = 0; dx < 2; dx++) {
+                for (int dy = 0; dy < 2; dy++) {
+                    if(level.jakiePole(TX+dx, TY+dy) != Plansza.Pole.Sciana) {
+                        neighbours++;
+                    } 
+                }
+            }
+        }
+        
+        if( neighbours > 3 ) return true;
+        return false;
     }
     
     public double getX()
