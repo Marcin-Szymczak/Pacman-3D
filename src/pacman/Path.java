@@ -66,11 +66,11 @@ public class Path {
         {
             int wlk = Plansza.wlk;
             g2d.setColor(Color.PINK);
-            g2d.fillRect( n.x*wlk+wlk/6*2, n.y*wlk+wlk/6*2, wlk/6*2, wlk/6*2 );
+            g2d.fillRect( Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+n.x*wlk+wlk/6*2, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+n.y*wlk+wlk/6*2, wlk/6*2, wlk/6*2 );
             if( parents )
             {
                 if( null != n.parent )
-                    g2d.drawLine(n.x*wlk+wlk/2, n.y*wlk+wlk/2, n.parent.x*wlk+wlk/2, n.parent.y*wlk+wlk/2 );
+                    g2d.drawLine(Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+n.x*wlk+wlk/2, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+n.y*wlk+wlk/2, Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+n.parent.x*wlk+wlk/2, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+n.parent.y*wlk+wlk/2 );
             }
             if( neighbours )
             {
@@ -79,7 +79,7 @@ public class Path {
                     if( null != neighbour )
                     {
                         g2d.setColor( Color.GREEN );
-                        g2d.drawLine( n.x*wlk+wlk/2, n.y*wlk+wlk/2, neighbour.x*wlk+wlk/2, neighbour.y*wlk+wlk/2);
+                        g2d.drawLine( Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+n.x*wlk+wlk/2, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+n.y*wlk+wlk/2, Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+neighbour.x*wlk+wlk/2, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+neighbour.y*wlk+wlk/2);
                     }
                 }
             }

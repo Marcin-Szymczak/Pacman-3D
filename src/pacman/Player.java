@@ -2,6 +2,11 @@ package pacman;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.*;
 
 /**
  *
@@ -44,6 +49,7 @@ public class Player {
     private Direction future;
     private Plansza level;
     private int score;
+    private Sounds sounds;
     
     public Player( Plansza level, double x, double y ) {
         posX = x;//13.0;
@@ -52,11 +58,12 @@ public class Player {
         future = direction;
         this.level = level;
         score=0;
+        sounds = new Sounds();
     }
     
     public void rysuj(Graphics2D g2d) {
         g2d.setColor(Color.yellow);
-        g2d.fillOval((int)posX*Plansza.wlk, (int)posY*Plansza.wlk, Plansza.wlk, Plansza.wlk);
+        g2d.fillOval(Pacman.WIDTH-Plansza.WIDTH*Plansza.wlk-5+(int)posX*Plansza.wlk, Pacman.HEIGHT-Plansza.HEIGHT*Plansza.wlk-5+(int)posY*Plansza.wlk, Plansza.wlk, Plansza.wlk);
     }
     
     public int getScore()
@@ -71,6 +78,10 @@ public class Player {
             //this.direction = direction;
         future = direction;
             
+    }
+    
+    public Direction getDirection() {
+        return direction;
     }
     
     /**

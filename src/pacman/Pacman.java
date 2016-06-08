@@ -1,9 +1,12 @@
 package pacman;
 
+import com.badlogic.gdx.Gdx;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,6 +14,8 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -20,8 +25,10 @@ import javax.swing.JPanel;
  */
 public class Pacman extends JFrame{
     //Dimension
-//    public static final int WIDTH = 640;
-//    public static final int HEIGHT = 360;
+    public static int WIDTH;
+    public static int HEIGHT;
+    
+    public static Config config;
 //    public static int SCALE = 2;
     
     //Main loop
@@ -29,12 +36,13 @@ public class Pacman extends JFrame{
     
     //State Manager
     public StateManager state;
+    public boolean game = false;
     
     class Krok extends TimerTask {
         @Override
         public void run() {
-            state.update();
-            repaint();
+                state.update();
+                repaint();
         }
     }
     
@@ -45,8 +53,7 @@ public class Pacman extends JFrame{
         Graphics2D g2d = (Graphics2D)bs.getDrawGraphics();
         //if( null == g2d ) return;
         g2d.setColor( Color.BLACK );
-        g2d.fillRect(0, 0, 800, 600);
-        g2d.translate(10, 30);
+        g2d.fillRect(0, 0, WIDTH, HEIGHT);
         
         state.draw(g2d);
         
@@ -69,10 +76,14 @@ public class Pacman extends JFrame{
     }
     
     public Pacman() {
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();   
+        WIDTH = d.width;
+        HEIGHT = d.height;
+
         setTitle("Pacman 3D - Woźniak Szymczak");
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
-        setBounds(50, 50, 800, 600);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setBounds(50, 50, WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         setVisible(true);
@@ -83,6 +94,7 @@ public class Pacman extends JFrame{
         addKeyListener(new Przyciski());
         
         state = new StateManager();
+        config = new Config();
         
         timer = new Timer();
         timer.scheduleAtFixedRate(new Krok(), 0, 100);

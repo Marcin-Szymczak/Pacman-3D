@@ -98,7 +98,6 @@ public class Plansza {
         return lista.toArray( new Path.Node[ lista.size() ] );
     }
     
-    
     public void ustaw(int x, int y, Pole pole) {
         if(wSrodku(x,y)) mapa[y][x] = pole;
         else System.err.println("Nie można ustawić pola o współrzędnych ["+x+"] ["+y+"]");
@@ -168,22 +167,22 @@ public class Plansza {
     
     public void rysuj(Graphics2D g2d) {
         g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, WIDTH*wlk+1, HEIGHT*wlk+1);
+        g2d.fillRect(Pacman.WIDTH-WIDTH*wlk-5, Pacman.HEIGHT-HEIGHT*wlk-5, WIDTH*wlk+1, HEIGHT*wlk+1);
         for(int r = 0; r < HEIGHT; r++) {
             for(int c = 0; c < WIDTH; c++) {
                 if(null != mapa[r][c]) switch (mapa[r][c]) {
                     case Sciana:
                         g2d.setColor(Color.blue);
                         g2d.setStroke(new BasicStroke(2));
-                        g2d.drawRoundRect(c*wlk, r*wlk, wlk, wlk, 5, 5);
+                        g2d.drawRoundRect(Pacman.WIDTH-WIDTH*wlk-5+c*wlk, Pacman.HEIGHT-HEIGHT*wlk-5+r*wlk, wlk, wlk, 5, 5);
                         break;
                     case Punkt:
                         g2d.setColor(new Color(255,204,102));
-                        g2d.fillOval(c*wlk+wlk/4, r*wlk+wlk/4, wlk/4*2, wlk/4*2);
+                        g2d.fillOval(Pacman.WIDTH-WIDTH*wlk-5+c*wlk+wlk/4, Pacman.HEIGHT-HEIGHT*wlk-5+r*wlk+wlk/4, wlk/4*2, wlk/4*2);
                         break;
                     case Bonus:
                         g2d.setColor(new Color(255,204,102));
-                        g2d.fillOval(c*wlk+wlk/6, r*wlk+wlk/6, 2*wlk/3, 2*wlk/3);
+                        g2d.fillOval(Pacman.WIDTH-WIDTH*wlk-5+c*wlk+wlk/6, Pacman.HEIGHT-HEIGHT*wlk-5+r*wlk+wlk/6, 2*wlk/3, 2*wlk/3);
                         break;
                     default:
                         break;

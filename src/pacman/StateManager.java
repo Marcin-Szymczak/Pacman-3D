@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Michał
  */
 public class StateManager {
-    private ArrayList<State> states;
+    public static ArrayList<State> states;
     
     private int currentState;
     
@@ -23,7 +23,6 @@ public class StateManager {
     public StateManager() {
         states = new ArrayList<State>();
         states.add(new Menu(this));
-        states.add(new Game(this));
         
         currentState = MENUSTATE;
         
